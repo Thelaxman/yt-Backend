@@ -53,15 +53,16 @@ const userSchema = new Schema(
 );
 
 //encrypting the password (middleware, i.e used with next())
+//.pre lets you make the changes just before saving into the database
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next(); //to check if the password is modified
 
-  this.password = bcrypt.hash(this.password, 10);
+  this.password = bcrypt.hash(this.password, 10); //10 here represents the rounds fo algorithm to be used to encrypt the password
   next();
 });
 
 //addin custom methods( you can write any method you want)
-//and then enjecting those method into your schema
+//and then injecting those method into your schema
 userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password); //will return true or false
 };

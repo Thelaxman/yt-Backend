@@ -7,7 +7,7 @@ export const verifyjwt = asyncHandler(async (req, res, next) => {
   try {
     const token =
       req.cookies.accessToken ||
-      req.header("Authorization")?.replace("Bearer", "");
+      req.header("Authorization")?.replace("Bearer", ""); //* This is for the requests coming from mobile applications
 
     if (!token) {
       throw new ApiError(401, "Unauthorized request");
